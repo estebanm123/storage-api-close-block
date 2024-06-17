@@ -56,8 +56,8 @@ namespace winrt::close_error_sound::implementation
                     co_await context;
                 }
                 
-                winrt::hstring message = L"got file w/ path: " + file.Path() + L"\n";
-                OutputDebugStringW(message.c_str());
+                //winrt::hstring message = L"got file w/ path: " + file.Path() + L"\n";
+                //OutputDebugStringW(message.c_str());
             }
         }
     }

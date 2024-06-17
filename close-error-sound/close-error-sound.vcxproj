@@ -138,11 +138,6 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="readme.txt">
-      <DeploymentContent>false</DeploymentContent>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />
     <Image Include="Assets\Square150x150Logo.scale-200.png" />
@@ -150,6 +145,15 @@
     <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Image Include="Assets\StoreLogo.png" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- <Content Include="$(SolutionDir)\sample files\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content> -->
+    <Content Include="$(SolutionDir)\sample files\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>sample files\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
   </ItemGroup>
   <!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging

@@ -7,6 +7,9 @@
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Search.h>
 
+#include <Shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -21,13 +24,18 @@ namespace winrt::close_error_sound::implementation
         WIN32_FIND_DATA fileData{};
         std::vector<winrt::hstring> fileNames;
 
-        winrt::hstring folderPath = L"E:\\bigFolders1\\large empty txt files";
+        WCHAR exePath[MAX_PATH];
+        GetModuleFileNameW(NULL, exePath, MAX_PATH);
+        PathRemoveFileSpecW(exePath);
+
+        auto folderPath = std::wstring{ exePath } + L"\\sample files";
         auto searchPath = folderPath + L"\\*";
         auto const& hFind = FindFirstFile(searchPath.c_str(), &fileData);
 
         do
         {
-            fileNames.push_back(fileData.cFileName);
+            if (!(fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+                fileNames.push_back(fileData.cFileName);
         } while (FindNextFile(hFind, &fileData) != 0);
 
         FindClose(hFind);
@@ -47,7 +55,7 @@ namespace winrt::close_error_sound::implementation
                     co_await resume_after(std::chrono::milliseconds(50));
                     co_await context;
                 }
-
+                
                 winrt::hstring message = L"got file w/ path: " + file.Path() + L"\n";
                 OutputDebugStringW(message.c_str());
             }
